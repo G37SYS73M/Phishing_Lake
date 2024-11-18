@@ -9,7 +9,7 @@ const app = express();
 const router = express.Router();
 
 const path = __dirname + '/views/';
-const port = 3000;
+const port = 80;
 
 
 
@@ -56,7 +56,7 @@ router.get('/', function(req,res){
 // homepage Route
 app.get("/homepage", (req, res) => {
   if (!req.session.userId) {
-      return res.render(path + "/index.html");
+      return res.sendFile(path + "/index.html");
   }
   const username = req.session.username || 'Guest';
   res.render(path + "/homepage", { username });
