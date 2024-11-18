@@ -13,7 +13,9 @@ sudo docker-compose down
 ```
 
 # Over View
-This Vulnerable application has implemented "AAL1 permits single-factor authentication"  and "AAL2 requires the use of two authentication factors (UNDER DEVELOPMENT)" which will help user to learn to create phishlets for EvilNginx.  
+This Vulnerable application has been implemented 
+1. "AAL1 permits single-factor authentication"
+2. "AAL2 requires the use of two authentication factors (UNDER DEVELOPMENT)" will help the user learn to create phishlets for EvilNginx.  
 
 
 
