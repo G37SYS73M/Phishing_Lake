@@ -1,6 +1,5 @@
 require('dotenv').config();
 
-
 const mongoose = require("mongoose");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
@@ -32,11 +31,16 @@ mongoose
 
 
 
+
 // Set view engine
 app.set("view engine", "ejs");
 
 
+
+
 // Routes
+
+
 
 //Home
 router.use(function (req,res,next) {
@@ -49,9 +53,53 @@ router.get('/', function(req,res){
 });
 
 
+// homepage Route
+app.get("/homepage", (req, res) => {
+  if (!req.session.userId) {
+      return res.render(path + "/index.html");
+  }
+  const username = req.session.username || 'Guest';
+  res.render(path + "/homepage", { username });
+});
+
+
+// Create User
+app.get("/createuser", (req, res) => {
+  res.render(path + "/create_user");
+});
+
+app.post("/createuser", async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    // Check if the user already exists
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+        return res.status(400).send("User already exists.");
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the new user
+    const newUser = new User({ username, password: hashedPassword });
+    await newUser.save();
+
+    // Optionally set the session and redirect or respond
+    req.session.userId = newUser._id;
+    res.status(201).send("User created successfully. You can now log in.");
+} catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).send("Server error while creating user.");
+}
+});
+
+
+
+
+
 // Login Route
 app.get("/aal1", (req, res) => {
-  res.render(path + "aal1");
+  res.render(path + "/aal1");
 });
 
 app.post("/aal1", async (req, res) => {
@@ -62,28 +110,19 @@ app.post("/aal1", async (req, res) => {
           return res.status(400).send("Invalid username or password");
       }
       req.session.userId = user._id;
-      res.redirect(path + "/dashboard");
+      req.session.username = user.username;
+      res.redirect("/homepage");
   } catch (error) {
       res.status(400).send("Login error");
   }
 });
 
-// Dashboard Route
-app.get("/dashboard", (req, res) => {
-  if (!req.session.userId) {
-      return res.redirect(path + "/aal1");
-  }
-  res.send("Welcome to your dashboard");
-});
 
 // Logout Route
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  res.redirect("/login");
+  res.sendFile(path + "/index.html");
 });
-
-
-
 
 
 

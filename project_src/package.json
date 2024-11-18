@@ -7,7 +7,8 @@
     "keywords": [
         "nodejs",
         "bootstrap",
-        "express"
+        "express",
+        "mongoose"
     ],
     "dependencies": {
         "bcryptjs": "^2.4.3",
