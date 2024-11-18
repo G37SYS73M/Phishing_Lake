@@ -14,3 +14,10 @@ sudo docker-compose down
 
 # Over View
 This Vulnerable application has implemented "AAL1 permits single-factor authentication"  and "AAL2 requires the use of two authentication factors (UNDER DEVELOPMENT)" which will help user to learn to create phishlets for EvilNginx.  
+
+
+
+## Post the application is running, to Create a new User visit
+```
+HTTP://localhost/createuser
+```
