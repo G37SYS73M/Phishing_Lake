@@ -6,5 +6,5 @@ USER node
 RUN npm install
 COPY project_src/ /home/node/app/
 COPY --chown=node:node . .
-EXPOSE 8080
+EXPOSE 3000
 CMD [ "node", "app.js" ]
